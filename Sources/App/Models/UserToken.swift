@@ -7,12 +7,8 @@ final class UserToken: Model, Content, ModelTokenAuthenticatable {
     
     static let schema = "user_tokens"
     
-    static let valueKey = \Token.$value
-    static let userKey = \Token.$user
-    
-    var isValid: Bool {
-        return self.expirtesAt > Date() && !self.isRevoked
-    }
+    static let valueKey = \UserToken.$token
+    static let userKey = \UserToken.$user
     
     @ID(key: .id)
     var id: UUID?
@@ -37,5 +33,9 @@ final class UserToken: Model, Content, ModelTokenAuthenticatable {
         self.$user.id = userId
         self.expiresAt = Date().advanced(by: 60 * 60 * 24 * 30)
         self.isRevoked = false
+    }
+    
+    var isValid: Bool {
+        return self.expiresAt > Date() && !self.isRevoked
     }
 }

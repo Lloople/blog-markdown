@@ -1,7 +1,7 @@
 @testable import App
 import XCTVapor
 
-final class TestCase: XCTestCase {
+class TestCase: XCTestCase {
     
     let app: Application = Application(.testing)
     
@@ -16,10 +16,10 @@ final class TestCase: XCTestCase {
     }
     
     override func tearDownWithError() throws {
-        User.query(on: app.db).delete().wait()
+        try User.query(on: app.db).delete().wait()
         
         app.shutdown()
         
-        super.tearDownWithError()
+        try super.tearDownWithError()
     }
 }

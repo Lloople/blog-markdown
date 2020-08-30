@@ -5,9 +5,9 @@ func routes(_ app: Application) throws {
     
     let auth = app.grouped("auth").grouped(User.authenticator())
     
-    auth.get(use: ShowLoginFormAction.invoke())
+    auth.get("login", use: ShowLoginFormAction().invoke)
     
-    auth.post(use: DoLoginAction.invoke())
+    auth.post("login", use: DoLoginAction().invoke)
     
     
 }
