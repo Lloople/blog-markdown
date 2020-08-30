@@ -2,20 +2,29 @@ import Fluent
 import FluentMySQLDriver
 import Vapor
 
-// configures your application
 public func configure(_ app: Application) throws {
-    // uncomment to serve files from /Public folder
-    // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
-    app.databases.use(.mysql(
-        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-        username: Environment.get("DATABASE_USERNAME") ?? "vapor_username",
-        password: Environment.get("DATABASE_PASSWORD") ?? "vapor_password",
-        database: Environment.get("DATABASE_NAME") ?? "vapor_database"
-    ), as: .mysql)
+    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
-    app.migrations.add(CreateTodo())
+    connectDatabase(app)
 
-    // register routes
+    setMigrations(app)
+
     try routes(app)
+}
+
+func connectDatabase(_ app: Application) -> Void {
+    app.databases.use(.mysql(
+        hostname: Environment.get("DATABASE_HOST") ?? "127.0.0.1",
+        username: Environment.get("DATABASE_USERNAME") ?? "vapor",
+        password: Environment.get("DATABASE_PASSWORD") ?? "vapor",
+        database: Environment.get("DATABASE_NAME") ?? "blog_markdown",
+        tlsConfiguration: .forClient(certificateVerification: .none)
+    ), as: .mysql)
+}
+
+func setMigrations(_ app: Application) -> Void {
+    app.migrations.add(CreateUser())
+    app.migrations.add(CreateUserToken())
+    app.migrations.add(CreatePost())
 }
