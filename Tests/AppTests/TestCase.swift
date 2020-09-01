@@ -16,7 +16,8 @@ class TestCase: XCTestCase {
     }
     
     override func tearDownWithError() throws {
-        try User.query(on: app.db).delete().wait()
+        
+        try app.autoRevert().wait()
         
         app.shutdown()
         

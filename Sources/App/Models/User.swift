@@ -27,11 +27,4 @@ final class User: Model, Content, ModelAuthenticatable {
     func verify(password: String) throws -> Bool {
         try Bcrypt.verify(password, created: self.password)
     }
-    
-    func generateToken() throws -> UserToken {
-        try .init(
-            token: [UInt8].random(count: 32).base64,
-            userId: self.requireID()
-        )
-    }
 }

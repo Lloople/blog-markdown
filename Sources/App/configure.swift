@@ -24,7 +24,6 @@ func configureDatabase(_ app: Application) -> Void {
     ), as: .mysql)
 
     app.migrations.add(CreateUser())
-    app.migrations.add(CreateUserToken())
     app.migrations.add(CreatePost())
 }
 
