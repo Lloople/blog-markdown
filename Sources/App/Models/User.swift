@@ -1,7 +1,7 @@
 import Fluent
 import Vapor
 
-final class User: Model, Content, ModelAuthenticatable {
+final class User: Model, Content, ModelSessionAuthenticatable {
     static let schema = "users"
     
     static let usernameKey = \User.$email

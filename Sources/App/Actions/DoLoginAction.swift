@@ -4,8 +4,8 @@ import Fluent
 struct DoLoginAction {
     init() { }
     
-    let urlFail: String = "auth/login"
-    let urlSuccess: String = "dashboard"
+    let urlFail: String = "/login"
+    let urlSuccess: String = "/admin/dashboard"
     
     func invoke(request: Request) throws -> EventLoopFuture<Response> {
         
@@ -15,7 +15,9 @@ struct DoLoginAction {
             .unwrap(or: Abort.redirect(to: self.urlFail))
             .flatMapThrowing { user in
                 if try user.verify(password: request.inputString("password")) {
-                    // TODO: Store user id in the session
+
+                    request.session.authenticate(user)
+
                     return request.redirect(to: self.urlSuccess)
                 }
                 

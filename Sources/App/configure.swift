@@ -6,6 +6,7 @@ import Leaf
 public func configure(_ app: Application) throws {
 
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+    app.middleware.use(app.sessions.middleware)
 
     configureDatabase(app)
 
