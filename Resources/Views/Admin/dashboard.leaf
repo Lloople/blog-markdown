@@ -1,0 +1,11 @@
+#extend("admin/layout"):
+
+#export("title", "Dashboard")
+
+#export("body"):
+
+<h1 class="text-4xl">Welcome back, #(user.email)</h1>
+
+#endexport
+
+#endextend
